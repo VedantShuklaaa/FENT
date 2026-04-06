@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "bun --bun next dev",
+    "build": "bun --bun next build",
+    "start": "bun --bun next start",
+    "lint": "eslint",
+    "test": "yarn ts-mocha -p ./tsconfig.anchor.json -t 1000000 tests/**/*.ts"
   },
   "dependencies": {
     "next": "16.2.2",
@@ -14,13 +15,20 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@coral-xyz/anchor": "^0.32.1",
     "@tailwindcss/postcss": "^4",
+    "@types/bn.js": "^5.2.0",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "chai": "^6.2.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
+    "mocha": "^11.7.5",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "ts-mocha": "^11.1.0",
+    "typescript": "^6.0.2"
   }
 }

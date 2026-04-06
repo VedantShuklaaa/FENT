@@ -1,0 +1,23 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "target": "ES2017",
+      "lib": ["es2017"],
+      "types": ["mocha", "chai", "@coral-xyz/anchor"],
+      "jsx": "preserve",
+      "noEmit": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "resolveJsonModule": true
+    },
+    "include": [
+      "tests/**/*.ts",
+      "target/types/**/*.ts"
+    ],
+    "exclude": [
+      "node_modules",
+      ".next"
+    ]
+  }
