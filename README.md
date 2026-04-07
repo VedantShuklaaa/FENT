@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -34,3 +35,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+=======
+# RYVEX
+RYVEX splits Solana LST positions (jitoSOL, mSOL, bSOL) into Principal Tokens (PT) for safe redemption of the original amount and Yield Tokens (YT) capturing future staking rewards. Users deposit LSTs, receive PT+YT, and auction YTs on-chain for transparent yield pricing. Pendle-inspired but Solana-native using English auctions.
+>>>>>>> 9031f6c3f909e4214cb2fdee94a32d0dbba134ab
