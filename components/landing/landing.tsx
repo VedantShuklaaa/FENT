@@ -3,6 +3,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
+import { WalletConnectButton } from "../wallet/wallet-connect-button";
+import { NetworkBridge } from "../wallet/network-bridge";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,10 +28,13 @@ export default function Landing() {
 
     return (
         <div ref={containerRef}>
-            {/*<div className="panel h-screen flex items-center justify-center">Section 1</div>
+            <div className="panel h-screen flex flex-col items-center justify-center gap-2">
+                <NetworkBridge/>
+                <WalletConnectButton/>
+            </div>
             <div className="panel h-screen flex items-center justify-center">Section 2</div>
             <div className="panel h-screen flex items-center justify-center">Section 3</div>
-            <div className="panel h-screen flex items-center justify-center">Section 4</div>*/}
+            <div className="panel h-screen flex items-center justify-center">Section 4</div>
         </div>
     )
 }

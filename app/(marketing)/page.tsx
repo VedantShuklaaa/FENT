@@ -41,10 +41,8 @@ export default function Page() {
                     </span>
                 </div>
             </div>
-
-            <div>
+           
                 <Landing />
-            </div>
         </main>
     )
 }
