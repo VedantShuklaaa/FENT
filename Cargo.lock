@@ -1237,6 +1237,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "835a3dc7d1ec9e75e2b5fb4ba75396837112d2060b03f7d43bc1897c7f7211da"
 
 [[package]]
+name = "fent-anchor"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "litesvm",
+ "solana-keypair",
+ "solana-message",
+ "solana-signer",
+ "solana-transaction",
+]
+
+[[package]]
 name = "ff"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2110,18 +2122,6 @@ name = "rustversion"
 version = "1.0.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b39cdef0fa800fc44525c84ccb54a029961a8215f9619753635a9c0d2538d46d"
-
-[[package]]
-name = "ryvex-anchor"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "litesvm",
- "solana-keypair",
- "solana-message",
- "solana-signer",
- "solana-transaction",
-]
 
 [[package]]
 name = "scopeguard"
