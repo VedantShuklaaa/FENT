@@ -3,7 +3,7 @@ use anchor_spl::token::{self, Mint, Token, TokenAccount, MintTo, Transfer};
 use crate::state::{Market, UserPosition};
 use crate::errors::FentError;
 
-
+/// Deposit LST → mint PT + YT 1:1
 pub fn deposit(ctx: Context<Deposit>, lst_amount: u64) -> Result<()> {
     let market = &mut ctx.accounts.market;
 

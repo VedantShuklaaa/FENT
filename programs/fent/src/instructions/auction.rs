@@ -148,7 +148,7 @@ pub fn settle_auction(ctx: Context<SettleAuction>) -> Result<()> {
             auction.yt_amount,
         )?;
     } else {
-        // winner gets YTs, seller gets bid minus fee
+        // Happy path: winner gets YTs, seller gets bid minus fee
         let config = &ctx.accounts.protocol_config;
         let fee = (auction.highest_bid as u128)
             .checked_mul(config.fee_bps as u128).unwrap()
@@ -326,7 +326,7 @@ pub struct BidPlacedEvent {
     pub bidder: Pubkey,
     pub bid_amount: u64,
     pub prev_bid: u64,
-    pub implied_apy_bps: u64,  
+    pub implied_apy_bps: u64,    // this is what agents watch
 }
 
 #[event]

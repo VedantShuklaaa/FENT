@@ -6,13 +6,13 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-ryvex_anchor = "8MxGhEUFBgCXRv8SY4DjEMbDA7uKKetpSYuHPZBGpyhn"
+fent = "FLp9vpfqWwoFA6RejXxZAWKmgfcb98TNFnLeAbZqk6QD"
 
 [provider]
 cluster = "localnet"
-wallet = '~\.config\solana\id.json'
+wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "bun run ts-mocha -p ./tsconfig.anchor.json -t 1000000 tests/**/*.ts"
+test = "cargo test"
 
 [hooks]

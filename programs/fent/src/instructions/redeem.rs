@@ -70,7 +70,7 @@ pub fn claim_yield(ctx: Context<ClaimYield>) -> Result<()> {
     let pending = (index_delta as u128)
         .checked_mul(position.yt_balance as u128)
         .unwrap_or(0)
-        .checked_div(1_000_000_000_000) 
+        .checked_div(1_000_000_000_000) // scale factor 1e12
         .unwrap_or(0) as u64;
 
     let total_claimable = position.unclaimed_yield.saturating_add(pending);
