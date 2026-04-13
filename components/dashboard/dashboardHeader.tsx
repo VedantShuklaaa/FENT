@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 
 interface DashboardHeaderProps {
     walletAddress?: string;
@@ -14,7 +13,7 @@ export default function DashboardHeader({
         <header className="sticky top-0 z-100 flex h-[52px] items-center justify-between gap-4 border-b [border-bottom:var(--border)] bg-(--color-bg-surface) px-6">
             <div className="flex items-center gap-[10px]">
                 <div className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-[4px] bg-(--color-accent)">
-                    <span className="font-(--font-mono) text-[10px] tracking-[-0.05em] text-[#E8F5F0]">YP</span>
+                    <span className="font-(--font-mono) text-[10px] tracking-[-0.05em] text-[#E8F5F0]">Ft</span>
                 </div>
                 <span className="font-(--font-sans) text-[13px] uppercase tracking-[0.04em] text-(--color-text-primary)">Fent.</span>
             </div>
