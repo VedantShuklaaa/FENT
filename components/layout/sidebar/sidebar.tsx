@@ -1,19 +1,24 @@
 "use client";
-import Link from 'next/link';
 import { useSidebarContext } from '@/lib/context/SidebarContext';
 import { NAV_SECTIONS } from '@/lib/nav';
 import NavSection from './navSection';
-import NavIcon from './navIcon';
 import SidebarToggle from './sidebarToggle';
 import SidebarWalletFooter from './sidebarWalletFooter';
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useMemo } from "react";
+import { truncateAddress } from "@/lib/utils";
 
 const SIDEBAR_WIDTH_EXPANDED = 274;
 const SIDEBAR_WIDTH_COLLAPSED = 56;
 
-const LOGO_PATH = 'M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 5a4 4 0 1 0 8 0 4 4 0 0 0-8 0z';
 
 export default function Sidebar() {
     const { collapsed, toggle, collapse, isMobile } = useSidebarContext();
+    const { publicKey } = useWallet();
+
+    const shortAddress = useMemo(() => {
+        return publicKey ? truncateAddress(publicKey.toBase58()) : '';
+    }, [publicKey]);
 
     const width = collapsed ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH_EXPANDED;
 
@@ -35,8 +40,8 @@ export default function Sidebar() {
                 <div className='h-[52px] shrink-0 [border-bottom:var(--border)]' aria-hidden />
 
                 <nav className='flex-1 overflow-x-hidden overflow-y-auto' aria-label="Sidebar navigation">
-                    <div 
-                    className={`flex flex-col gap-3 py-3 transition-[padding] duration-200 ${collapsed ? 'p-[8px]' : 'p-[10px]'}`}>
+                    <div
+                        className={`flex flex-col gap-3 py-3 transition-[padding] duration-200 ${collapsed ? 'p-[8px]' : 'p-[10px]'}`}>
                         {NAV_SECTIONS.map((section) => (
                             <NavSection
                                 key={section.key}
@@ -52,7 +57,7 @@ export default function Sidebar() {
                     <SidebarToggle collapsed={collapsed} onToggle={toggle} />
                     <SidebarWalletFooter
                         collapsed={collapsed}
-                        walletAddress="7xKq…d4Rn"
+                        walletAddress={shortAddress}
                         network="mainnet"
                         balanceSol={248.40}
                     />

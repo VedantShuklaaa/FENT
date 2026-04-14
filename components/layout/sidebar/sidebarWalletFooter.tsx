@@ -1,5 +1,7 @@
 'use client';
-import React from 'react';
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useMemo } from "react";
+import { truncateAddress } from "@/lib/utils";
 
 interface SidebarWalletFooterProps {
   collapsed: boolean;
@@ -27,10 +29,10 @@ export default function SidebarWalletFooter({
           <p className='mb-[2px] truncate font-mono text-[11px] text-(--color-text-primary)'>{walletAddress}</p>
           <p className='flex items-center gap-[6px] font-mono text-[10px] text-[var(--color-text-tertiary)]'>
             {balanceSol.toFixed(2)} SOL
-            <span className="inline-flex items-center gap-[6px] rounded-sm bg-(--color-accent-bg) px-2 py-[3px] font-(--font-mono) text-[10px] uppercase tracking-[0.06em] text-(--color-accent-text) border-[0.5px] border-(--color-accent-border)">
+            {/*<span className="inline-flex items-center gap-[6px] rounded-sm bg-(--color-accent-bg) px-2 py-[3px] font-(--font-mono) text-[10px] uppercase tracking-[0.06em] text-(--color-accent-text) border-[0.5px] border-(--color-accent-border)">
               <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-(--color-accent)" />
               {network === 'mainnet' ? 'Mainnet' : 'Devnet'}
-            </span>
+            </span>*/}
           </p>
         </div>
       )}

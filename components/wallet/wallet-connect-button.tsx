@@ -24,25 +24,26 @@ export function WalletConnectButton({
         if (connected) {
             await disconnect().catch(console.error);
         } else {
-            setVisible(true); 
+            setVisible(true);
         }
     };
 
     return (
         <div className="flex items-center gap-3">
             <button
-            type="button"
-            onClick={handleClick}
-            className={`flex items-center gap-2 border border-zinc-700 p-2 text-sm font-mono text-zinc-500 hover:text-zinc-300 hover:border-zinc-500 transition-colors cursor-pointer rounded-sm ${className}`}
-        >
-            {connecting && <span>Connecting...</span>}
-            {!connecting && !connected && <span>Connect Wallet</span>}
-            {connected && <span>{shortAddress}</span>}
+                type="button"
+                onClick={handleClick}
+                className={`flex items-center gap-2 px-[11px] py-[5px] border p-2 bg-(--color-bg-subtle) [border:var(--border-md)] text-sm font-mono text-(--color-text-secondary) hover:border-zinc-400 transition-colors cursor-pointer rounded-md text-[11px] ${className}`}
+            >
+                <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-(--color-accent)" />
+                {connecting && <span>Connecting...</span>}
+                {!connecting && !connected && <span>Connect Wallet</span>}
+                {connected && <span>{shortAddress}</span>}
 
-            {showNetwork && connected && (
-                <span className="opacity-50">{wallet?.adapter.name}</span>
-            )}
-        </button>
+                {showNetwork && connected && (
+                    <span className="opacity-50">{wallet?.adapter.name}</span>
+                )}
+            </button>
         </div>
     )
 }

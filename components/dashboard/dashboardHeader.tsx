@@ -1,4 +1,4 @@
-"use client";
+import { WalletConnectButton } from "../wallet/wallet-connect-button";
 
 interface DashboardHeaderProps {
     walletAddress?: string;
@@ -24,10 +24,7 @@ export default function DashboardHeader({
                     {network === 'mainnet' ? 'Mainnet' : 'Devnet'}
                 </span>
 
-                <div className="flex cursor-pointer items-center gap-[7px] rounded-md bg-(--color-bg-subtle) px-[11px] py-[5px] [border:var(--border-md)]" role="button" tabIndex={0} aria-label="Wallet connected">
-                    <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-(--color-accent)" />
-                    <span className="font-(--font-mono) text-[11px] text-(--color-text-secondary)">{walletAddress}</span>
-                </div>
+                <WalletConnectButton />
 
                 <button
                     className="cursor-pointer rounded-md border-none bg-(--color-accent) px-[14px] py-[6px] font-(--font-sans) text-[12px] tracking-[0.01em] text-[#E8F5F0]"

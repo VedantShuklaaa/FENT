@@ -13,7 +13,7 @@ export default function SidebarToggle({ collapsed, onToggle }: SidebarToggleProp
             onClick={onToggle}
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             title={`${collapsed ? 'Expand' : 'Collapse'} sidebar ([)`}
-            className={`sidebar-toggle-btn ${collapsed ? 'center' : 'space-between'} flex w-full items-center min-h-[28px] px-[10px] py-[6px] cursor-pointer rounded-md bg-transparent font-sans border-border transition-[background] duration-[120ms]`}
+            className={` ${collapsed ? 'justify-center' : 'justify-between'} flex w-full items-center min-h-[28px] px-[10px] py-[6px] cursor-pointer rounded-md bg-transparent font-sans border-border transition-[background] duration-[120ms]`}
         >
             {!collapsed && (
                 <span className='rounded-[2px] px-[5px] py-[1px] font-mono text-[10px] leading-[1.4] tracking-[0.04em] text-(--color-text-tertiary) [border:var(--border-md)]'>[</span>

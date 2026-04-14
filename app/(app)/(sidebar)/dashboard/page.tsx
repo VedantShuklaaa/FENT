@@ -1,80 +1,67 @@
-"use client";
-import { TrendingUp } from "lucide-react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+'use client';
+import React from 'react';
+import PortfolioSummary    from '@/components/dashboard/PortfolioSummary';
+import LSTAllocation       from '@/components/dashboard/LSTAllocation';
+import PositionMatrix      from '@/components/dashboard/PositionMatrix';
+import AuctionPanel        from '@/components/dashboard/AuctionPanel';
+import { ProtocolNotes, ProtocolEvents } from '@/components/dashboard/ProtocolNotes';
+import ActionRail          from '@/components/dashboard/ActionRail';
+import YTSensitivity       from '@/components/dashboard/YTSensitivity';
 
+export default function DashboardPage() {
+  return (
+    <div style={styles.root}>
+      {/* ── Portfolio summary strip ──────────────────────────── */}
+      <PortfolioSummary />
 
-export const description = "A line chart"
-const chartData = [
-    { month: "January", desktop: 186 },
-    { month: "February", desktop: 305 },
-    { month: "March", desktop: 237 },
-    { month: "April", desktop: 73 },
-    { month: "May", desktop: 209 },
-    { month: "June", desktop: 214 },
-]
-const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "var(--chart-1)",
-    },
+      {/* ── Main body: asymmetric 2-col grid ────────────────── */}
+      <div style={styles.body}>
+
+        {/* Left column — 3fr */}
+        <div style={styles.leftCol}>
+          <LSTAllocation />
+          <PositionMatrix />
+          <AuctionPanel />
+        </div>
+
+        {/* Right column — 2fr */}
+        <div style={styles.rightCol}>
+          <ActionRail />
+          <ProtocolNotes />
+          <ProtocolEvents />
+          <YTSensitivity />
+        </div>
+
+      </div>
+    </div>
+  );
 }
 
+const styles: Record<string, React.CSSProperties> = {
+  root: {
+    minHeight:  '100%',
+    background: 'var(--color-bg-base)',
+  },
 
-export default function Page() {
+  body: {
+    display:             'grid',
+    gridTemplateColumns: 'minmax(0, 3fr) minmax(0, 2fr)',
+    gap:                 16,
+    padding:             '20px 24px',
+    maxWidth:            1400,
+    margin:              '0 auto',
+    alignItems:          'start',
+  },
 
+  leftCol: {
+    display:       'flex',
+    flexDirection: 'column',
+    gap:           16,
+  },
 
-
-    return (
-        <main className="font-mono min-h-screen w-full flex flex-col bg-[var(--color-bg-base)] text-[var(--color-text-primary)]" >
-            <div className="z-0 pointer-events-none fixed inset-0 opacity-[0.04] bg-[url(/bg.svg)]" />
-
-            <div className="h-[50vh] w-full flex">
-                <div className="h-full w-[70%] flex p-1">
-                    <div className={`h-full w-full border border-(--color-border-medium) rounded-md p-2 flex `}>
-                        <div className="h-10 w-full flex items-center justify-between text-(--color-text-secondary)">
-                            <div>
-                                <span className="text-lg">Solana</span>
-                                <span className="text-xs">(SOL)</span>
-                            </div>
-                            <div></div>
-                        </div>
-                    </div>
-                </div>
-                <div className="h-full w-[30%] flex flex-col gap-2 p-1">
-                    <div className={`h-full w-full border border-(--color-border-medium) rounded-md`}>
-
-                    </div>
-
-                    <div className={`h-full w-full border border-(--color-border-medium) rounded-md`}>
-
-                    </div>
-
-                    <div className={`h-full w-full border border-(--color-border-medium) rounded-md`}>
-
-                    </div>
-                </div>
-            </div>
-
-            <div className="h-[50vh] w-full p-1">
-                <div className="h-full w-full rounded-md">
-
-                </div>
-            </div>
-
-            <div className="h-[30vh] w-full p-1 gap-2 flex">
-                <div className={`h-full w-full border border-(--color-border-medium) rounded-md`}>
-
-                </div>
-
-                <div className={`h-full w-full border border-(--color-border-medium) rounded-md`}>
-
-                </div>
-
-                <div className={`h-full w-full border border-(--color-border-medium) rounded-md`}>
-
-                </div>
-            </div>
-
-        </main>
-    )
-}
+  rightCol: {
+    display:       'flex',
+    flexDirection: 'column',
+    gap:           16,
+  },
+};
