@@ -1,6 +1,4 @@
 'use client';
-
-import React from 'react';
 import { portfolioSummary, formatSol, formatUsd, formatPct } from '@/lib/data';
 
 interface StatProps {
@@ -30,8 +28,8 @@ function Stat({
       </p>
       <p
         className={`mt-[2px] text-[11px] ${subPositive
-            ? 'text-[var(--color-positive)]'
-            : 'text-[var(--color-text-tertiary)]'
+          ? 'text-[var(--color-positive)]'
+          : 'text-[var(--color-text-tertiary)]'
           }`}
       >
         {sub}

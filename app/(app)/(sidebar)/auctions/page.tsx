@@ -1,10 +1,4 @@
 'use client';
-
-// app/auction/page.tsx
-// Auction index — lists all rounds (active + settled).
-// Each row links to /auction/[round].
-// Active round is visually prominent at the top.
-
 import React from 'react';
 import Link from 'next/link';
 import { allAuctionsSorted, fmtPrice, fmtPct, fmtSol } from '@/lib/auctionData/auctionData';

@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "components/Silk.jsx"  ],
+, "components/Silk.jsx", "lib/chartData"  ],
   "exclude": ["node_modules"]
 }

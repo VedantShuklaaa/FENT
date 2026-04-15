@@ -6,7 +6,7 @@ import RedeemHistory from '@/components/redeem/redeemHistory';
 import RedeemNote from '@/components/redeem/redeemNote';
 import { positionsSummary } from '@/lib/positionData/positionData';
 
-export default function RedeemPage() {
+export default function Page() {
     const claimable = positionsSummary.claimableSol;
 
     return (
