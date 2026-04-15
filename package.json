@@ -19,6 +19,7 @@
     "@solana/web3.js": "^1.98.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.38.0",
     "gsap": "^3.14.2",
     "lightweight-charts": "^5.1.0",
     "lucide-react": "^1.7.0",

@@ -4,7 +4,7 @@ import PositionsTable from '@/components/positions/positionsTable';
 import QuickActions from '@/components/positions/quickActions';
 import ActivityLog from '@/components/positions/activityLog';
 
-export default function PositionsPage() {
+export default function Page() {
     return (
         <div className="min-h-full bg-[var(--color-bg-base)]">
             {/* ── Summary strip ─────────────────────────────────────── */}

@@ -35,16 +35,22 @@ export default function Page() {
     // ── Not found state ───────────────────────────────────────────
     if (!auction) {
         return (
-            <div style={s.root}>
-                <div style={s.notFound}>
-                    <p style={s.notFoundCode}>404</p>
-                    <p style={s.notFoundTitle}>Auction not found</p>
-                    <p style={s.notFoundSub}>
-                        Round <code style={s.code}>#{auctionId}</code> does not exist or has not been indexed yet.
+            <div className="min-h-full bg-[var(--color-bg-base)]">
+                <div className="flex max-w-[480px] flex-col items-start gap-[10px] px-10 py-16">
+                    <p className="font-[var(--font-mono)] text-[11px] tracking-[0.08em] text-[var(--color-text-tertiary)]">
+                        404
                     </p>
-                    <Link href="/auctions" style={s.backLink}>← All auctions</Link>
+                    <p className="text-[22px] font-medium leading-[1.2] text-[var(--color-text-primary)]">
+                        Auction not found
+                    </p>
+                    <p className={`text-[13px] leading-[1.6] text-(--color-text-secondary)`}>
+                        Round <code className={`rounded-[3px] bg-(--color-bg-muted) px-[5px] py-[1px] font-(--font-mono) text-[12px]`}>#{auctionId}</code> does not exist or has not been indexed yet.
+                    </p>
+                    <Link href="/auctions" className="mt-2 font-[var(--font-sans)] text-[12px] text-(--color-accent) no-underline">
+                        ← All auctions
+                    </Link>
                 </div>
-            </div>
+            </div >
         );
     }
 
@@ -53,34 +59,54 @@ export default function Page() {
     const nextRound = allAuctionsSorted.find((a: any) => a.round === auction.round + 1);
 
     return (
-        <div style={s.root}>
-
+        <div className="min-h-full bg-[var(--color-bg-base)]">
             {/* ── Breadcrumb + round navigator ─────────────────────── */}
-            <div style={s.topBar}>
-                <div style={s.breadcrumb}>
-                    <Link href="/auctions" style={s.breadcrumbLink}>Auctions</Link>
-                    <span style={s.breadcrumbSep}>/</span>
-                    <span style={s.breadcrumbCurrent}>
+            <div className="flex items-center justify-between gap-4 border-b-[var(--border)] bg-[var(--color-bg-surface)] px-6 py-[10px]">
+                <div className="flex items-center gap-[6px]">
+                    <Link href="/auctions" className="font-[var(--font-sans)] text-[12px] text-[var(--color-text-tertiary)] no-underline">
+                        Auctions
+                    </Link>
+                    <span className="text-[12px] text-[var(--color-text-tertiary)]">/</span>
+                    <span className="flex items-center gap-2 font-[var(--font-sans)] text-[12px] font-medium text-[var(--color-text-primary)]">
                         Round #{auction.round}
-                        {isLive && <span style={s.liveBadge}><span style={s.liveDot} />Live</span>}
+                        {isLive && (
+                            <span className="inline-flex items-center gap-[5px] rounded-[3px] border-[0.5px] border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] px-[7px] py-[2px] font-[var(--font-mono)] text-[9px] uppercase tracking-[0.07em] text-[var(--color-accent-text)]">
+                                <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-[var(--color-accent)]" />
+                                Live
+                            </span>
+                        )}
                     </span>
                 </div>
 
                 {/* Prev / Next round navigation */}
-                <div style={s.roundNav}>
+                <div className="flex items-center gap-1">
                     {prevRound ? (
-                        <Link href={`/auctions/${prevRound.round}`} style={s.roundNavBtn}>
+                        <Link
+                            href={`/auctions/${prevRound.round}`}
+                            className="rounded-[var(--radius-md)] border-[var(--border-md)] bg-[var(--color-bg-subtle)] px-[10px] py-[4px] font-[var(--font-mono)] text-[11px] text-[var(--color-text-secondary)] no-underline transition-[background] duration-[120ms]"
+                        >
                             ← #{prevRound.round}
                         </Link>
-                    ) : <span style={s.roundNavDisabled}>← Prev</span>}
+                    ) : (
+                        <span className="px-[10px] py-[4px] font-[var(--font-mono)] text-[11px] text-[var(--color-text-tertiary)] opacity-40">
+                            ← Prev
+                        </span>
+                    )}
 
-                    <span style={s.roundNavDivider} />
+                    <span className="mx-[2px] h-[14px] w-px bg-[var(--color-border-soft)]" />
 
                     {nextRound ? (
-                        <Link href={`/auctions/${nextRound.round}`} style={s.roundNavBtn}>
+                        <Link
+                            href={`/auctions/${nextRound.round}`}
+                            className="rounded-[var(--radius-md)] border-[var(--border-md)] bg-[var(--color-bg-subtle)] px-[10px] py-[4px] font-[var(--font-mono)] text-[11px] text-[var(--color-text-secondary)] no-underline transition-[background] duration-[120ms]"
+                        >
                             #{nextRound.round} →
                         </Link>
-                    ) : <span style={s.roundNavDisabled}>Next →</span>}
+                    ) : (
+                        <span className="px-[10px] py-[4px] font-[var(--font-mono)] text-[11px] text-[var(--color-text-tertiary)] opacity-40">
+                            Next →
+                        </span>
+                    )}
                 </div>
             </div>
 
@@ -89,33 +115,31 @@ export default function Page() {
 
             {/* ── Settled banner for non-active rounds ─────────────── */}
             {!isLive && (
-                <div style={s.settledBanner}>
-                    <span style={s.settledIcon}>✓</span>
-                    <span style={s.settledText}>
-                        This auction settled on <strong>{auction.settledDate}</strong> at a clearing price of{' '}
-                        <strong>{fmtPrice(auction.clearingPrice)} {auction.underlying}</strong> ({fmtPct(auction.impliedYield)} implied APY).
-                        Data below is read-only.
+                <div className="flex flex-wrap items-center gap-3 border-b-[var(--border)] bg-[var(--color-bg-subtle)] px-6 py-[10px]">
+                    <span className="shrink-0 font-[var(--font-mono)] text-[12px] text-[var(--color-text-tertiary)]">
+                        ✓
                     </span>
-                    {isLive === false && (
-                        <Link href="/auctions/latest" style={s.settledLink}>
-                            Go to active round →
-                        </Link>
-                    )}
+                    <span className="min-w-[200px] flex-1 text-[11px] leading-[1.6] text-[var(--color-text-secondary)]">
+                        This auction settled on <strong>{auction.settledDate}</strong> at a clearing price of{' '}
+                        <strong>
+                            {fmtPrice(auction.clearingPrice)} {auction.underlying}
+                        </strong>{' '}
+                        ({fmtPct(auction.impliedYield)} implied APY). Data below is read-only.
+                    </span>
+                    <Link href="/auctions/latest" className="shrink-0 whitespace-nowrap font-[var(--font-sans)] text-[11px] text-[var(--color-accent)] no-underline">
+                        Go to active round →
+                    </Link>
                 </div>
             )}
 
-            <div style={s.content}>
-
+            <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-6 py-5">
                 {/* ── Row 1: Order book + Bid form (bid form hidden if settled) ─ */}
-                <div style={s.row}>
-                    <div style={{ ...s.col, flex: 2 }}>
+                <div className="flex items-start gap-4">
+                    <div className="flex min-w-0 flex-[2] flex-col">
                         <OrderBook />
                     </div>
-                    <div style={{ ...s.col, flex: 1 }}>
-                        {isLive
-                            ? <BidForm />
-                            : <SettledSidebar round={auction.round} />
-                        }
+                    <div className="flex min-w-0 flex-1 flex-col">
+                        {isLive ? <BidForm /> : <SettledSidebar round={auction.round} />}
                     </div>
                 </div>
 
@@ -123,44 +147,43 @@ export default function Page() {
                 {isLive && <MyAuctionOrders />}
 
                 {/* ── Row 3: Trade history + Mechanics ─────────────────── */}
-                <div style={s.row}>
-                    <div style={{ ...s.col, flex: 3 }}>
+                <div className="flex items-start gap-4">
+                    <div className="flex min-w-0 flex-[3] flex-col">
                         <TradeHistory />
                     </div>
-                    <div style={{ ...s.col, flex: 2 }}>
+                    <div className="flex min-w-0 flex-[2] flex-col">
                         <AuctionMechanics />
                     </div>
                 </div>
 
                 {/* ── Row 4: Past auctions ──────────────────────────────── */}
                 <PastAuctions currentRound={auction.round} />
-
             </div>
         </div>
     );
 }
-
 // ─── Settled sidebar (replaces BidForm on settled rounds) ─────
 
-function SettledSidebar({ 
-    round 
-}: { 
-    round: number 
+function SettledSidebar({
+    round
+}: {
+    round: number
 }) {
     return (
-        <div style={s.settledSidebar}>
-            <div style={s.settledSidebarHeader}>
-                <p style={s.settledSidebarTitle}>Round #{round} — Settled</p>
-            </div>
-            <div style={s.settledSidebarBody}>
-                <p style={s.settledSidebarNote}>
-                    This round has closed. Winning bids were filled at the clearing price.
-                    Unfilled bids were returned to their wallets on-chain.
+        <div className="overflow-hidden rounded-[var(--radius-lg)] border-[var(--border)] bg-[var(--color-bg-surface)]">
+            <div className="border-b-[var(--border)] px-4 pb-[11px] pt-3">
+                <p className="text-[11px] font-medium uppercase tracking-[0.07em] text-[var(--color-text-secondary)]">
+                    Round #{round} — Settled
                 </p>
-                <Link href="/auctions/latest" style={s.settledSidebarCta}>
+            </div>
+            <div className="flex flex-col gap-3 p-4">
+                <p className="text-[12px] leading-[1.65] text-[var(--color-text-secondary)]">
+                    This round has closed. Winning bids were filled at the clearing price. Unfilled bids were returned to their wallets on-chain.
+                </p>
+                <Link href="/auctions/latest" className="block rounded-[var(--radius-md)] bg-[var(--color-accent)] px-[14px] py-[9px] text-center font-[var(--font-sans)] text-[12px] font-medium tracking-[0.01em] text-[#E8F5F0] no-underline">
                     Bid on active round →
                 </Link>
-                <Link href="/auctions" style={s.settledSidebarBack}>
+                <Link href="/auctions" className="block rounded-[var(--radius-md)] border-[var(--border-md)] px-[14px] py-[8px] text-center font-[var(--font-sans)] text-[12px] text-[var(--color-text-secondary)] no-underline">
                     View all rounds
                 </Link>
             </div>
@@ -168,269 +191,3 @@ function SettledSidebar({
     );
 }
 
-// ─── Styles ───────────────────────────────────────────────────
-
-const s: Record<string, React.CSSProperties> = {
-    root: {
-        minHeight: '100%',
-        background: 'var(--color-bg-base)',
-    },
-
-    // ── Top bar ─────────────────────────────────────────────────
-    topBar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '10px 24px',
-        background: 'var(--color-bg-surface)',
-        borderBottom: 'var(--border)',
-        gap: 16,
-    },
-
-    breadcrumb: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 6,
-    },
-
-    breadcrumbLink: {
-        fontFamily: 'var(--font-sans)',
-        fontSize: 12,
-        color: 'var(--color-text-tertiary)',
-        textDecoration: 'none',
-    },
-
-    breadcrumbSep: {
-        fontSize: 12,
-        color: 'var(--color-text-tertiary)',
-    },
-
-    breadcrumbCurrent: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-        fontFamily: 'var(--font-sans)',
-        fontSize: 12,
-        fontWeight: 500,
-        color: 'var(--color-text-primary)',
-    },
-
-    liveBadge: {
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 5,
-        fontFamily: 'var(--font-mono)',
-        fontSize: 9,
-        letterSpacing: '0.07em',
-        textTransform: 'uppercase' as const,
-        padding: '2px 7px',
-        borderRadius: 3,
-        background: 'var(--color-accent-bg)',
-        color: 'var(--color-accent-text)',
-        border: '0.5px solid var(--color-accent-border)',
-    },
-
-    liveDot: {
-        width: 5,
-        height: 5,
-        borderRadius: '50%',
-        background: 'var(--color-accent)',
-        flexShrink: 0,
-    },
-
-    roundNav: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 4,
-    },
-
-    roundNavBtn: {
-        fontFamily: 'var(--font-mono)',
-        fontSize: 11,
-        color: 'var(--color-text-secondary)',
-        textDecoration: 'none',
-        padding: '4px 10px',
-        borderRadius: 'var(--radius-md)',
-        border: 'var(--border-md)',
-        background: 'var(--color-bg-subtle)',
-        transition: 'background 0.12s',
-    },
-
-    roundNavDisabled: {
-        fontFamily: 'var(--font-mono)',
-        fontSize: 11,
-        color: 'var(--color-text-tertiary)',
-        padding: '4px 10px',
-        opacity: 0.4,
-    },
-
-    roundNavDivider: {
-        width: 1,
-        height: 14,
-        background: 'var(--color-border-soft)',
-        margin: '0 2px',
-    },
-
-    // ── Settled banner ──────────────────────────────────────────
-    settledBanner: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-        padding: '10px 24px',
-        background: 'var(--color-bg-subtle)',
-        borderBottom: 'var(--border)',
-        flexWrap: 'wrap' as const,
-    },
-
-    settledIcon: {
-        fontFamily: 'var(--font-mono)',
-        fontSize: 12,
-        color: 'var(--color-text-tertiary)',
-        flexShrink: 0,
-    },
-
-    settledText: {
-        flex: 1,
-        fontSize: 11,
-        color: 'var(--color-text-secondary)',
-        lineHeight: 1.6,
-        minWidth: 200,
-    },
-
-    settledLink: {
-        fontFamily: 'var(--font-sans)',
-        fontSize: 11,
-        color: 'var(--color-accent)',
-        textDecoration: 'none',
-        whiteSpace: 'nowrap' as const,
-        flexShrink: 0,
-    },
-
-    // ── Main content grid ───────────────────────────────────────
-    content: {
-        padding: '20px 24px',
-        maxWidth: 1400,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 16,
-    },
-
-    row: {
-        display: 'flex',
-        gap: 16,
-        alignItems: 'flex-start',
-    },
-
-    col: {
-        display: 'flex',
-        flexDirection: 'column',
-        minWidth: 0,
-    },
-
-    // ── Not found ───────────────────────────────────────────────
-    notFound: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        padding: '64px 40px',
-        gap: 10,
-        maxWidth: 480,
-    },
-
-    notFoundCode: {
-        fontFamily: 'var(--font-mono)',
-        fontSize: 11,
-        color: 'var(--color-text-tertiary)',
-        letterSpacing: '0.08em',
-    },
-
-    notFoundTitle: {
-        fontSize: 22,
-        fontWeight: 500,
-        color: 'var(--color-text-primary)',
-        lineHeight: 1.2,
-    },
-
-    notFoundSub: {
-        fontSize: 13,
-        color: 'var(--color-text-secondary)',
-        lineHeight: 1.6,
-    },
-
-    code: {
-        fontFamily: 'var(--font-mono)',
-        fontSize: 12,
-        background: 'var(--color-bg-muted)',
-        padding: '1px 5px',
-        borderRadius: 3,
-    },
-
-    backLink: {
-        marginTop: 8,
-        fontFamily: 'var(--font-sans)',
-        fontSize: 12,
-        color: 'var(--color-accent)',
-        textDecoration: 'none',
-    },
-
-    // ── Settled sidebar ─────────────────────────────────────────
-    settledSidebar: {
-        background: 'var(--color-bg-surface)',
-        border: 'var(--border)',
-        borderRadius: 'var(--radius-lg)',
-        overflow: 'hidden',
-    },
-
-    settledSidebarHeader: {
-        padding: '12px 16px 11px',
-        borderBottom: 'var(--border)',
-    },
-
-    settledSidebarTitle: {
-        fontSize: 11,
-        fontWeight: 500,
-        letterSpacing: '0.07em',
-        textTransform: 'uppercase' as const,
-        color: 'var(--color-text-secondary)',
-    },
-
-    settledSidebarBody: {
-        padding: '16px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 12,
-    },
-
-    settledSidebarNote: {
-        fontSize: 12,
-        color: 'var(--color-text-secondary)',
-        lineHeight: 1.65,
-    },
-
-    settledSidebarCta: {
-        display: 'block',
-        textAlign: 'center' as const,
-        padding: '9px 14px',
-        background: 'var(--color-accent)',
-        color: '#E8F5F0',
-        borderRadius: 'var(--radius-md)',
-        fontFamily: 'var(--font-sans)',
-        fontSize: 12,
-        fontWeight: 500,
-        textDecoration: 'none',
-        letterSpacing: '0.01em',
-    },
-
-    settledSidebarBack: {
-        display: 'block',
-        textAlign: 'center' as const,
-        padding: '8px 14px',
-        border: 'var(--border-md)',
-        borderRadius: 'var(--radius-md)',
-        fontFamily: 'var(--font-sans)',
-        fontSize: 12,
-        color: 'var(--color-text-secondary)',
-        textDecoration: 'none',
-    },
-};

@@ -1,14 +1,14 @@
 'use client';
 import React from 'react';
-import PortfolioSummary    from '@/components/dashboard/PortfolioSummary';
-import LSTAllocation       from '@/components/dashboard/LSTAllocation';
-import PositionMatrix      from '@/components/dashboard/PositionMatrix';
-import AuctionPanel        from '@/components/dashboard/AuctionPanel';
+import PortfolioSummary from '@/components/dashboard/PortfolioSummary';
+import LSTAllocation from '@/components/dashboard/LSTAllocation';
+import PositionMatrix from '@/components/dashboard/PositionMatrix';
+import AuctionPanel from '@/components/dashboard/AuctionPanel';
 import { ProtocolNotes, ProtocolEvents } from '@/components/dashboard/ProtocolNotes';
-import ActionRail          from '@/components/dashboard/ActionRail';
-import YTSensitivity       from '@/components/dashboard/YTSensitivity';
+import ActionRail from '@/components/dashboard/ActionRail';
+import YTSensitivity from '@/components/dashboard/YTSensitivity';
 
-export default function DashboardPage() {
+export default function Page() {
   return (
     <div style={styles.root}>
       {/* ── Portfolio summary strip ──────────────────────────── */}
@@ -39,29 +39,29 @@ export default function DashboardPage() {
 
 const styles: Record<string, React.CSSProperties> = {
   root: {
-    minHeight:  '100%',
+    minHeight: '100%',
     background: 'var(--color-bg-base)',
   },
 
   body: {
-    display:             'grid',
+    display: 'grid',
     gridTemplateColumns: 'minmax(0, 3fr) minmax(0, 2fr)',
-    gap:                 16,
-    padding:             '20px 24px',
-    maxWidth:            1400,
-    margin:              '0 auto',
-    alignItems:          'start',
+    gap: 16,
+    padding: '20px 24px',
+    maxWidth: 1400,
+    margin: '0 auto',
+    alignItems: 'start',
   },
 
   leftCol: {
-    display:       'flex',
+    display: 'flex',
     flexDirection: 'column',
-    gap:           16,
+    gap: 16,
   },
 
   rightCol: {
-    display:       'flex',
+    display: 'flex',
     flexDirection: 'column',
-    gap:           16,
+    gap: 16,
   },
 };
