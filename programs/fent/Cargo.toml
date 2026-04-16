@@ -1,7 +1,7 @@
 [package]
 name = "fent"
 version = "0.1.0"
-description = "Created with Anchor"
+description = "Solana yield tokenization protocol — PT/YT splitting and auction"
 edition = "2021"
 
 [lib]
@@ -9,19 +9,17 @@ crate-type = ["cdylib", "lib"]
 name = "fent"
 
 [features]
-default = []
-cpi = ["no-entrypoint"]
 no-entrypoint = []
 no-idl = []
 no-log-ix-name = []
-idl-build = ["anchor-lang/idl-build"]
-anchor-debug = []
-custom-heap = []
-custom-panic = []
+cpi = ["no-entrypoint"]
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+default = []
 
 
 [dependencies]
-anchor-lang = "1.0.0"
+anchor-lang  = { version = "0.31.1", features = ["init-if-needed"] }
+anchor-spl   = { version = "0.31.1", features = ["token", "associated_token"] }
 
 [dev-dependencies]
 litesvm = "0.10.0"
@@ -33,3 +31,5 @@ solana-keypair = "3.0.1"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"))'] }
+
+

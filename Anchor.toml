@@ -1,4 +1,5 @@
 [toolchain]
+anchor_version = "1.0.0"
 package_manager = "yarn"
 
 [features]
@@ -6,7 +7,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-fent = "FLp9vpfqWwoFA6RejXxZAWKmgfcb98TNFnLeAbZqk6QD"
+fent = "9s3X48cnvPHMLGuKGzGRQdQP6vhQsh2E2PNjd9azryBC"
 
 [provider]
 cluster = "localnet"
