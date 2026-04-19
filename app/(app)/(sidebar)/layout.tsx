@@ -1,5 +1,5 @@
 import { SidebarProvider } from '@/lib/context/SidebarContext';
-import AppShell from '@/components/layout/sidebar/appShell';
+import AppShell from '@/components/appShell';
 
 export default function AppLayout({
   children

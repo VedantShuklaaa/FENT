@@ -3,6 +3,7 @@ import React from 'react';
 import Sidebar from '@/components/layout/sidebar/sidebar';
 import { useSidebarContext } from '@/lib/context/SidebarContext';
 import DashboardHeader from '@/components/dashboard/dashboardHeader';
+import Footer from '@/components/layout/footer/footer';
 
 interface AppShellProps {
     children: React.ReactNode;
@@ -33,6 +34,7 @@ export default function AppShell({
                 />
                 <main className='flex-1 min-h-0 overflow-y-auto'>
                     {children}
+                    <Footer />
                 </main>
             </div>
         </div>
