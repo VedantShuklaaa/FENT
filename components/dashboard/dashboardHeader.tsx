@@ -1,13 +1,16 @@
-import { WalletConnectButton } from "../wallet/wallet-connect-button";
+'use client';
+import ThemeToggle from '@/components/layout/themeToggle/themeToggle';
 
 interface DashboardHeaderProps {
     walletAddress?: string;
     network?: 'mainnet' | 'devnet';
+    onStakeClick?: () => void;
 }
 
 export default function DashboardHeader({
     walletAddress = '',
     network = 'mainnet',
+    onStakeClick,
 }: DashboardHeaderProps) {
     return (
         <header className="sticky top-0 z-100 flex h-[52px] items-center justify-between gap-4 border-b [border-bottom:var(--border)] bg-(--color-bg-surface) px-6">
@@ -24,15 +27,27 @@ export default function DashboardHeader({
                     {network === 'mainnet' ? 'Mainnet' : 'Devnet'}
                 </span>
 
-                <WalletConnectButton />
+                {/* ── Dark mode toggle ── */}
+                <ThemeToggle />
+
+                <div
+                    className="flex cursor-pointer items-center gap-[7px] rounded-md bg-(--color-bg-subtle) px-[11px] py-[5px] [border:var(--border-md)]"
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Wallet connected"
+                >
+                    <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-(--color-accent)" />
+                    <span className="font-(--font-mono) text-[11px] text-(--color-text-secondary)">{walletAddress}</span>
+                </div>
 
                 <button
                     className="cursor-pointer rounded-md border-none bg-(--color-accent) px-[14px] py-[6px] font-(--font-sans) text-[12px] tracking-[0.01em] text-[#E8F5F0]"
                     aria-label="Stake SOL"
+                    onClick={onStakeClick}
                 >
                     Stake SOL
                 </button>
             </div>
         </header>
-    )
+    );
 }

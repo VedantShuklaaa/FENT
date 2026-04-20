@@ -9,7 +9,7 @@ import YTSensitivity from '@/components/dashboard/YTSensitivity';
 
 export default function Page() {
   return (
-    <div className="min-h-full bg-[var(--color-bg-base)]">
+    <div className="min-h-full bg-(--color-bg-base)">
       <PortfolioSummary />
 
       <div className="mx-auto grid max-w-[1400px] grid-cols-[minmax(0,3fr)_minmax(0,2fr)] items-start gap-4 px-6 py-5">
