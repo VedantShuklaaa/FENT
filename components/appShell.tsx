@@ -29,7 +29,7 @@ export default function AppShell({
             <Sidebar />
             <div className='flex min-w-0 flex-1 flex-col h-screen overflow-hidden'>
                 <DashboardHeader
-                    walletAddress="7xKq…d4Rn"
+                    walletAddress=""
                     network="mainnet"
                 />
                 <main className='flex-1 min-h-0 overflow-y-auto'>

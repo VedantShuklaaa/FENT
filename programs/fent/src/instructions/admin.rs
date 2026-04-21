@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{Mint, Token};
-use crate::{errors::YieldrError, events::{LstRegistered, ProtocolInitialized}, state::{LstInfo, ProtocolConfig}};
+use crate::{errors::FentError, events::{LstRegistered, ProtocolInitialized}, state::{LstInfo, ProtocolConfig}};
 
 #[derive(Accounts)]
 pub struct InitializeProtocol<'info> {
@@ -27,7 +27,7 @@ pub struct RegisterLst<'info> {
     #[account(init, payer = admin, space = LstInfo::LEN, seeds = [b"lst_info", lst_mint.key().as_ref()], bump)]
     pub lst_info: Account<'info, LstInfo>,
     pub lst_mint: Account<'info, Mint>,
-    #[account(seeds = [b"protocol_config"], bump = protocol_config.bump, has_one = admin @ YieldrError::Unauthorized)]
+    #[account(seeds = [b"protocol_config"], bump = protocol_config.bump, has_one = admin @ FentError::Unauthorized)]
     pub protocol_config: Account<'info, ProtocolConfig>,
     #[account(mut)]
     pub admin: Signer<'info>,
@@ -36,8 +36,8 @@ pub struct RegisterLst<'info> {
 }
 
 pub fn register_lst(ctx: Context<RegisterLst>, symbol: String, name: String) -> Result<()> {
-    require!(symbol.len() <= 16, YieldrError::LstAlreadyRegistered);
-    require!(name.len()   <= 64, YieldrError::LstAlreadyRegistered);
+    require!(symbol.len() <= 16, FentError::LstAlreadyRegistered);
+    require!(name.len()   <= 64, FentError::LstAlreadyRegistered);
     let i          = &mut ctx.accounts.lst_info;
     i.mint          = ctx.accounts.lst_mint.key();
     i.symbol        = symbol.clone();

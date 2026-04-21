@@ -1,5 +1,5 @@
 "use client";
-import {ReactNode, useMemo} from "react";
+import { ReactNode, useMemo } from "react";
 import { clusterApiUrl } from "@solana/web3.js";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
@@ -11,7 +11,7 @@ type Props = {
     children: ReactNode;
 };
 
-export function AppWalletAdapter({children}: Props){
+export function AppWalletAdapter({ children }: Props) {
 
     const network = WalletAdapterNetwork.Devnet;
 
@@ -21,7 +21,7 @@ export function AppWalletAdapter({children}: Props){
 
     const wallets = useMemo(() => [], []);
 
-    return(
+    return (
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} autoConnect>
                 <WalletModalProvider>

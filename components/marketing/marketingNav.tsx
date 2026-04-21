@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import ThemeToggle from '@/components/layout/themeToggle/themeToggle';
 
 interface MarketingNavProps {
     activePage?: 'home' | 'docs' | 'explore';
@@ -32,13 +33,14 @@ export default function MarketingNav({ activePage }: MarketingNavProps) {
             <nav
                 className={`flex items-center gap-1.5 rounded-full p-1.5 transition-all duration-500 ${
                     scrolled
-                        ? 'bg-[rgba(255,255,255,0.85)] shadow-[var(--shadow-sm)] border border-[var(--color-border-soft)] backdrop-blur-xl'
+                        ? 'bg-[var(--color-background-primary)] shadow-[var(--shadow-sm)] border border-[var(--color-border-soft)] backdrop-blur-xl'
                         : 'bg-transparent border border-transparent shadow-none'
                 }`}
             >
                 <Link href="/" className="flex items-center pl-4 pr-3 py-1 border-r border-[var(--color-border-soft)] transition-opacity hover:opacity-70">
                     <span className="font-bold tracking-tight text-[14px] text-[var(--color-text-primary)]">FENt.</span>
                 </Link>
+
                 
                 <div className="flex items-center gap-1 px-1">
                 {NAV_LINKS.map(({ href, label, id }) => {
@@ -65,6 +67,8 @@ export default function MarketingNav({ activePage }: MarketingNavProps) {
                     );
                 })}
                 </div>
+
+
             </nav>
         </motion.div>
     );

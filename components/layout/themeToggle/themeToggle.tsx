@@ -37,17 +37,16 @@ export default function ThemeToggle({ size = 'default' }: ThemeToggleProps) {
                 // spacing — gap and padding differ by size
                 size === 'default' ? 'gap-1.5 px-2.5 py-[5px]' : 'gap-0 p-1.5',
                 // appearance
-                'border border-[var(--border-md)] rounded-[var(--radius-md)]',
+                'border border-[var(--color-border-soft)] rounded-[var(--radius-md)]',
                 'bg-[var(--color-bg-subtle)] text-[var(--color-text-secondary)]',
                 // typography
-                'font-[var(--font-sans)] text-[11px] whitespace-nowrap',
+                'font-[var(--font-sans)] text-sm whitespace-nowrap',
                 // interaction
                 'cursor-pointer',
             ].join(' ')}
             whileTap={{ scale: 0.94 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
         >
-            {/* Icon cross-fade */}
             <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                     key={isDark ? 'moon' : 'sun'}
@@ -61,7 +60,6 @@ export default function ThemeToggle({ size = 'default' }: ThemeToggleProps) {
                 </motion.span>
             </AnimatePresence>
 
-            {/* Label — only in default size */}
             {size === 'default' && (
                 <AnimatePresence mode="wait" initial={false}>
                     <motion.span

@@ -1,11 +1,11 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
-use crate::{errors::YieldrError, events::Deposited, state::{ActivityCounter, ActivityRecord, ActivityType, Market, Position, ProtocolConfig}};
+use crate::{errors::FentError, events::Deposited, state::{ActivityCounter, ActivityRecord, ActivityType, Market, Position, ProtocolConfig}};
 
 #[derive(Accounts)]
 pub struct Deposit<'info> {
-    #[account(mut, constraint = !market.is_settled @ YieldrError::MarketMatured)]
-    pub market: Account<'info, Market>,
+    #[account(mut, constraint = !market.is_settled @ FentError::MarketMatured)]
+    pub market: Account<'info, Market>
     #[account(init_if_needed, payer = user, space = Position::LEN,
         seeds = [b"position", user.key().as_ref(), market.key().as_ref()], bump)]
     pub position: Account<'info, Position>,
@@ -30,9 +30,9 @@ pub struct Deposit<'info> {
 }
 
 pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
-    require!(amount > 0, YieldrError::ZeroAmount);
+    require!(amount > 0, FentError::ZeroAmount);
     let now = Clock::get()?.unix_timestamp;
-    require!(ctx.accounts.market.maturity_ts > now, YieldrError::MarketMatured);
+    require!(ctx.accounts.market.maturity_ts > now, FentError::MarketMatured);
 
     token::transfer(CpiContext::new(ctx.accounts.token_program.to_account_info(),
         Transfer { from: ctx.accounts.user_lst_account.to_account_info(),
@@ -40,7 +40,7 @@ pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
                    authority: ctx.accounts.user.to_account_info() }), amount)?;
 
     let market = &mut ctx.accounts.market;
-    market.total_deposited = market.total_deposited.checked_add(amount).ok_or(YieldrError::MathOverflow)?;
+    market.total_deposited = market.total_deposited.checked_add(amount).ok_or(FentError::MathOverflow)?;
 
     let position = &mut ctx.accounts.position;
     if position.opened_at == 0 {
@@ -50,11 +50,11 @@ pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
         position.opened_at                 = now;
         position.bump                      = ctx.bumps.position;
     }
-    position.deposited_amount = position.deposited_amount.checked_add(amount).ok_or(YieldrError::MathOverflow)?;
+    position.deposited_amount = position.deposited_amount.checked_add(amount).ok_or(FentError::MathOverflow)?;
     position.last_activity_at = now;
 
     ctx.accounts.protocol_config.total_tvl =
-        ctx.accounts.protocol_config.total_tvl.checked_add(amount).ok_or(YieldrError::MathOverflow)?;
+        ctx.accounts.protocol_config.total_tvl.checked_add(amount).ok_or(FentError::MathOverflow)?;
 
     let counter = &mut ctx.accounts.activity_counter;
     if counter.count == 0 { counter.owner = ctx.accounts.user.key(); counter.bump = ctx.bumps.activity_counter; }
@@ -67,7 +67,7 @@ pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
     record.timestamp     = now;
     record.tx_sig        = [0u8; 64];
     record.bump          = ctx.bumps.activity_record;
-    counter.count        = counter.count.checked_add(1).ok_or(YieldrError::MathOverflow)?;
+    counter.count        = counter.count.checked_add(1).ok_or(FentError::MathOverflow)?;
 
     emit!(Deposited { user: ctx.accounts.user.key(), market: market.key(), lst_mint: market.lst_mint, amount, timestamp: now });
     Ok(())

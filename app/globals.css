@@ -4,7 +4,7 @@
 @import "shadcn/tailwind.css";
 
 :root {
-  --background: rgb(18, 18, 18);
+  --background: rgb(245, 245, 245);
   --foreground: rgb(250, 250, 250);
   --card: rgb(26, 26, 26);
   --card-foreground: rgb(250, 250, 250);
@@ -59,100 +59,65 @@
   --color-bg-surface:     #FFFFFF;
   --color-bg-subtle:      #F0EFEC;
   --color-bg-muted:       #E8E7E4;
- 
+
   --color-border-soft:    rgba(0, 0, 0, 0.07);
   --color-border-medium:  rgba(0, 0, 0, 0.12);
- 
+
   --color-text-primary:   #1A1918;
   --color-text-secondary: #5A5855;
   --color-text-tertiary:  #9A9895;
- 
-  /* Accent — muted emerald, used sparingly */
+
   --color-accent:         #2A7A5C;
   --color-accent-bg:      #E8F5F0;
   --color-accent-border:  #B5DDD0;
   --color-accent-text:    #1D5C44;
- 
-  /* PT — cool slate-blue */
+
   --color-pt:             #2D4A7A;
   --color-pt-bg:          #EDF1F8;
   --color-pt-border:      #C5D0E8;
   --color-pt-fill:        #4A6FA5;
- 
-  /* YT — warm amber */
+
   --color-yt:             #7A4E14;
   --color-yt-bg:          #FBF3E8;
   --color-yt-border:      #E8D5B0;
   --color-yt-fill:        #C47D2A;
- 
-  /* Semantic */
+
   --color-positive:       #2A7A5C;
   --color-negative:       #A33030;
   --color-neutral:        #5A5855;
- 
-  /* Typography */
-  --font-sans:  'DM Sans', sans-serif;
-  --font-mono:  'IBM Plex Mono', monospace;
- 
-  /* Spacing scale (4px base) */
-  --space-1:  4px;
-  --space-2:  8px;
-  --space-3:  12px;
-  --space-4:  16px;
-  --space-5:  20px;
-  --space-6:  24px;
- 
-  /* Borders */
-  --radius-sm: 3px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
-  --border:    0.5px solid var(--color-border-soft);
-  --border-md: 0.5px solid var(--color-border-medium);
 }
 
-
 [data-theme="dark"] {
-  /* Surfaces — from footer: #0D0F0E, #121614, #181C1A, #1F2420  */
   --color-bg-base:        #0D0F0E;
   --color-bg-surface:     #121614;
   --color-bg-subtle:      #181C1A;
   --color-bg-muted:       #1F2420;
- 
-  /* Borders — from footer dark scheme                            */
+
   --color-border-soft:    rgba(255, 255, 255, 0.06);
   --color-border-medium:  rgba(255, 255, 255, 0.12);
- 
-  /* Text on dark — from footer: #F2F0EC, #A8A49E, #5C5956       */
+
   --color-text-primary:   #F2F0EC;
   --color-text-secondary: #A8A49E;
   --color-text-tertiary:  #5C5956;
- 
-  /* Accent emerald — brighter on dark for legibility             */
+
   --color-accent:         #3DAF84;
   --color-accent-bg:      rgba(42, 122, 92, 0.15);
   --color-accent-border:  rgba(61, 175, 132, 0.25);
   --color-accent-text:    #3DAF84;
- 
-  /* PT blue — lightened for dark bg                              */
+
   --color-pt:             #8AAED4;
   --color-pt-bg:          rgba(74, 111, 165, 0.12);
   --color-pt-border:      rgba(74, 111, 165, 0.25);
   --color-pt-fill:        #6B9BC4;
- 
-  /* YT amber — lightened for dark bg                             */
+
   --color-yt:             #E8B87A;
   --color-yt-bg:          rgba(196, 125, 42, 0.12);
   --color-yt-border:      rgba(196, 125, 42, 0.25);
   --color-yt-fill:        #D4924A;
- 
-  /* Semantic                                                      */
+
   --color-positive:       #3DAF84;
   --color-negative:       #E06060;
   --color-neutral:        #A8A49E;
- 
-  /* Border shorthands re-computed (vars already reference above) */
-  --border:    0.5px solid var(--color-border-soft);
-  --border-md: 0.5px solid var(--color-border-medium);
 }
 
 @theme inline {
@@ -208,8 +173,6 @@
   --shadow-2xl: var(--shadow-2xl);
 }
 
-
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -217,7 +180,7 @@
   body {
     @apply bg-background text-foreground;
   }
-  
+
   html.lenis {
     height: auto;
   }
@@ -235,9 +198,6 @@
   }
 }
 
-
-/* ─── Smooth theme transition ────────────────────────────────── */
-/* Only transition color-related properties, not layout ones.     */
 *,
 *::before,
 *::after {
@@ -248,7 +208,6 @@
     box-shadow       0.22s ease;
 }
 
-/* Kill transitions on elements that shouldn't animate color     */
 canvas,
 svg path,
 svg rect,
@@ -257,9 +216,9 @@ img,
 video {
   transition: none !important;
 }
- 
+
 html { font-size: 14px; }
- 
+
 body {
   font-family: var(--font-sans);
   font-weight: 400;
@@ -268,14 +227,13 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
- 
-/* ─── Utility ────────────────────────────────────────────────── */
+
 .mono {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
- 
+
 .label-caps {
   font-size: 10px;
   font-weight: 400;
@@ -284,12 +242,10 @@ body {
   color: var(--color-text-tertiary);
 }
 
-/* ─── Scrollbar ──────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--color-bg-muted); border-radius: 2px; }
 
-/* ─── Focus ring ─────────────────────────────────────────────── */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;

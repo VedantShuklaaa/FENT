@@ -15,7 +15,7 @@ use instructions::split::SplitPosition;
 use instructions::redeem::{ClaimYield, RedeemPt};
 use instructions::auction::{CreateAuction, PlaceBid, SettleAuction, WithdrawBid};
 
-declare_id!("9s3X48cnvPHMLGuKGzGRQdQP6vhQsh2E2PNjd9azryBC");
+declare_id!("6Kkk6nvLC4RombhmjQvRD77ZE1UKLoXMPBLup7gZN7ZR");
 
 #[program]
 pub mod fent {

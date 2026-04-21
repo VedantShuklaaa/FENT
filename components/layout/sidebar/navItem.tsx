@@ -1,4 +1,4 @@
-'use client'; import React from 'react';
+'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NavItem as NavItemType } from '@/lib/nav';

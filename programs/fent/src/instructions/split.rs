@@ -1,10 +1,10 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{associated_token::AssociatedToken, token::{self, Mint, MintTo, Token, TokenAccount}};
-use crate::{errors::YieldrError, events::PositionSplit, state::{ActivityCounter, ActivityRecord, ActivityType, Market, Position}};
+use crate::{errors::FentError, events::PositionSplit, state::{ActivityCounter, ActivityRecord, ActivityType, Market, Position}};
 
 #[derive(Accounts)]
 pub struct SplitPosition<'info> {
-    #[account(mut, constraint = !market.is_settled @ YieldrError::MarketMatured)]
+    #[account(mut, constraint = !market.is_settled @ FentError::MarketMatured)]
     pub market: Account<'info, Market>,
     #[account(mut, seeds = [b"position", user.key().as_ref(), market.key().as_ref()], bump = position.bump)]
     pub position: Account<'info, Position>,
@@ -30,11 +30,11 @@ pub struct SplitPosition<'info> {
 }
 
 pub fn split_position(ctx: Context<SplitPosition>, amount: u64) -> Result<()> {
-    require!(amount > 0, YieldrError::ZeroAmount);
+    require!(amount > 0, FentError::ZeroAmount);
     let now = Clock::get()?.unix_timestamp;
-    require!(ctx.accounts.position.owner == ctx.accounts.user.key(), YieldrError::Unauthorized);
-    require!(ctx.accounts.market.maturity_ts > now, YieldrError::MarketMatured);
-    require!(ctx.accounts.position.deposited_amount >= amount, YieldrError::InsufficientDeposit);
+    require!(ctx.accounts.position.owner == ctx.accounts.user.key(), FentError::Unauthorized);
+    require!(ctx.accounts.market.maturity_ts > now, FentError::MarketMatured);
+    require!(ctx.accounts.position.deposited_amount >= amount, FentError::InsufficientDeposit);
 
     let market_key  = ctx.accounts.market.key();
     let lst_mint    = ctx.accounts.market.lst_mint;
@@ -50,19 +50,19 @@ pub fn split_position(ctx: Context<SplitPosition>, amount: u64) -> Result<()> {
                  authority: ctx.accounts.market.to_account_info() }, seeds), amount)?;
 
     let p = &mut ctx.accounts.position;
-    p.deposited_amount = p.deposited_amount.checked_sub(amount).ok_or(YieldrError::MathOverflow)?;
-    p.pt_amount        = p.pt_amount.checked_add(amount).ok_or(YieldrError::MathOverflow)?;
-    p.yt_amount        = p.yt_amount.checked_add(amount).ok_or(YieldrError::MathOverflow)?;
+    p.deposited_amount = p.deposited_amount.checked_sub(amount).ok_or(FentError::MathOverflow)?;
+    p.pt_amount        = p.pt_amount.checked_add(amount).ok_or(FentError::MathOverflow)?;
+    p.yt_amount        = p.yt_amount.checked_add(amount).ok_or(FentError::MathOverflow)?;
     p.last_activity_at = now;
     let m = &mut ctx.accounts.market;
-    m.total_pt_minted  = m.total_pt_minted.checked_add(amount).ok_or(YieldrError::MathOverflow)?;
-    m.total_yt_minted  = m.total_yt_minted.checked_add(amount).ok_or(YieldrError::MathOverflow)?;
+    m.total_pt_minted  = m.total_pt_minted.checked_add(amount).ok_or(FentError::MathOverflow)?;
+    m.total_yt_minted  = m.total_yt_minted.checked_add(amount).ok_or(FentError::MathOverflow)?;
 
     let c = &mut ctx.accounts.activity_counter;
     let r = &mut ctx.accounts.activity_record;
     r.owner = ctx.accounts.user.key(); r.index = c.count; r.activity_type = ActivityType::Split;
     r.market = market_key; r.amount = amount; r.timestamp = now; r.bump = ctx.bumps.activity_record;
-    c.count = c.count.checked_add(1).ok_or(YieldrError::MathOverflow)?;
+    c.count = c.count.checked_add(1).ok_or(FentError::MathOverflow)?;
 
     emit!(PositionSplit { user: ctx.accounts.user.key(), market: market_key, amount, timestamp: now });
     Ok(())

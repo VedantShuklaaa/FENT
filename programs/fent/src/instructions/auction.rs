@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, MintTo, Token, TokenAccount};
-use crate::{errors::YieldrError, events::{AuctionCreated, AuctionSettled, BidPlaced, BidWithdrawn},
+use crate::{errors::FentError, events::{AuctionCreated, AuctionSettled, BidPlaced, BidWithdrawn},
             state::{ActivityCounter, ActivityRecord, ActivityType, Auction, AuctionStatus, Bid, Market}};
 
 #[derive(Accounts)]
@@ -20,7 +20,7 @@ pub fn create_auction(ctx: Context<CreateAuction>, round: u64, duration_secs: i6
     let now = Clock::get()?.unix_timestamp;
     let a = &mut ctx.accounts.auction;
     a.market = ctx.accounts.market.key(); a.round = round;
-    a.start_ts = now; a.end_ts = now.checked_add(duration_secs).ok_or(YieldrError::MathOverflow)?;
+    a.start_ts = now; a.end_ts = now.checked_add(duration_secs).ok_or(FentError::MathOverflow)?;
     a.min_bid_price = min_bid_price; a.clearing_price = 0; a.total_bid_volume = 0;
     a.total_supply = 0; a.total_filled = 0; a.status = AuctionStatus::Open; a.bump = ctx.bumps.auction;
     ctx.accounts.market.current_auction_round = round;
@@ -42,11 +42,11 @@ pub struct PlaceBid<'info> {
 
 pub fn place_bid(ctx: Context<PlaceBid>, price: u64, quantity: u64) -> Result<()> {
     let now = Clock::get()?.unix_timestamp;
-    require!(ctx.accounts.auction.status == AuctionStatus::Open, YieldrError::AuctionNotOpen);
-    require!(now <= ctx.accounts.auction.end_ts, YieldrError::AuctionNotOpen);
-    require!(quantity > 0, YieldrError::ZeroBidQuantity);
-    require!(price >= ctx.accounts.auction.min_bid_price, YieldrError::BidPriceTooLow);
-    let escrowed = price.checked_mul(quantity).ok_or(YieldrError::MathOverflow)?;
+    require!(ctx.accounts.auction.status == AuctionStatus::Open, FentError::AuctionNotOpen);
+    require!(now <= ctx.accounts.auction.end_ts, FentError::AuctionNotOpen);
+    require!(quantity > 0, FentError::ZeroBidQuantity);
+    require!(price >= ctx.accounts.auction.min_bid_price, FentError::BidPriceTooLow);
+    let escrowed = price.checked_mul(quantity).ok_or(FentError::MathOverflow)?;
     anchor_lang::system_program::transfer(CpiContext::new(ctx.accounts.system_program.to_account_info(),
         anchor_lang::system_program::Transfer { from: ctx.accounts.bidder.to_account_info(),
                                                 to:   ctx.accounts.bid.to_account_info() }), escrowed)?;
@@ -54,7 +54,7 @@ pub fn place_bid(ctx: Context<PlaceBid>, price: u64, quantity: u64) -> Result<()
     b.auction = ctx.accounts.auction.key(); b.bidder = ctx.accounts.bidder.key();
     b.price = price; b.quantity = quantity; b.escrowed_lamports = escrowed;
     b.filled_quantity = 0; b.withdrawn = false; b.bump = ctx.bumps.bid;
-    ctx.accounts.auction.total_bid_volume = ctx.accounts.auction.total_bid_volume.checked_add(escrowed).ok_or(YieldrError::MathOverflow)?;
+    ctx.accounts.auction.total_bid_volume = ctx.accounts.auction.total_bid_volume.checked_add(escrowed).ok_or(FentError::MathOverflow)?;
     emit!(BidPlaced { auction: ctx.accounts.auction.key(), bidder: ctx.accounts.bidder.key(), price, quantity, escrowed_lamports: escrowed, timestamp: now });
     Ok(())
 }
@@ -70,8 +70,8 @@ pub struct SettleAuction<'info> {
 
 pub fn settle_auction(ctx: Context<SettleAuction>) -> Result<()> {
     let now = Clock::get()?.unix_timestamp;
-    require!(ctx.accounts.auction.status == AuctionStatus::Open, YieldrError::AuctionAlreadySettled);
-    require!(now > ctx.accounts.auction.end_ts, YieldrError::AuctionNotEnded);
+    require!(ctx.accounts.auction.status == AuctionStatus::Open, FentError::AuctionAlreadySettled);
+    require!(now > ctx.accounts.auction.end_ts, FentError::AuctionNotEnded);
     let clearing_price = ctx.accounts.auction.min_bid_price;
     let days = (ctx.accounts.market.maturity_ts - now).max(1);
     let years_scaled = days as u128 * 1_000_000 / 365;
@@ -109,12 +109,12 @@ pub struct WithdrawBid<'info> {
 
 pub fn withdraw_bid(ctx: Context<WithdrawBid>) -> Result<()> {
     let now = Clock::get()?.unix_timestamp;
-    require!(ctx.accounts.auction.status == AuctionStatus::Settled, YieldrError::AuctionNotSettled);
-    require!(!ctx.accounts.bid.withdrawn, YieldrError::BidAlreadyWithdrawn);
+    require!(ctx.accounts.auction.status == AuctionStatus::Settled, FentError::AuctionNotSettled);
+    require!(!ctx.accounts.bid.withdrawn, FentError::BidAlreadyWithdrawn);
     let clearing_price = ctx.accounts.auction.clearing_price;
     let bid = &ctx.accounts.bid;
     let (pt_to_receive, lamports_to_refund) = if bid.price >= clearing_price {
-        let cost = clearing_price.checked_mul(bid.quantity).ok_or(YieldrError::MathOverflow)?;
+        let cost = clearing_price.checked_mul(bid.quantity).ok_or(FentError::MathOverflow)?;
         (bid.quantity, bid.escrowed_lamports.saturating_sub(cost))
     } else { (0u64, bid.escrowed_lamports) };
 
@@ -138,7 +138,7 @@ pub fn withdraw_bid(ctx: Context<WithdrawBid>) -> Result<()> {
     r.owner = ctx.accounts.bidder.key(); r.index = c.count; r.activity_type = activity_type;
     r.market = ctx.accounts.market.key(); r.amount = pt_to_receive.max(lamports_to_refund);
     r.timestamp = now; r.bump = ctx.bumps.activity_record;
-    c.count = c.count.checked_add(1).ok_or(YieldrError::MathOverflow)?;
+    c.count = c.count.checked_add(1).ok_or(FentError::MathOverflow)?;
 
     emit!(BidWithdrawn { auction: ctx.accounts.auction.key(), bidder: ctx.accounts.bidder.key(),
         pt_received: pt_to_receive, lamports_refunded: lamports_to_refund, timestamp: now });

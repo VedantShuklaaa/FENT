@@ -8,6 +8,8 @@ import dynamic from 'next/dynamic';
 
 import MarketingNav from '@/components/marketing/marketingNav';
 import { useSmoothScroll } from '@/lib/hooks/useSmoothScroll';
+import DashboardSnippet from '@/components/marketing/dashboardSnippet';
+import ThemeToggle from '@/components/layout/themeToggle/themeToggle';
 
 const FooterOrb = dynamic(() => import('@/components/layout/footer/footerOrb'), { ssr: false });
 
@@ -94,7 +96,7 @@ export default function Page() {
                         initial="hidden"
                         animate="visible"
                         custom={0}
-                        className="mb-8 px-5 py-2 rounded-full border border-[var(--color-border-soft)] bg-[rgba(255,255,255,0.7)] backdrop-blur-xl text-[11px] font-mono tracking-widest uppercase text-[var(--color-text-secondary)] shadow-sm"
+                        className="mb-8 px-5 py-2 rounded-full border border-[var(--color-border-soft)] bg-[var(--color-bg-surface)] backdrop-blur-xl text-[11px] font-mono tracking-widest uppercase text-[var(--color-text-secondary)] shadow-sm"
                     >
                         Introducing FENt.
                     </motion.div>
@@ -133,7 +135,7 @@ export default function Page() {
                         custom={3}
                         className="flex flex-col sm:flex-row items-center gap-5"
                     >
-                        <Link href="/dashboard" className="group relative overflow-hidden rounded-full bg-[var(--color-text-primary)] px-8 py-4 text-[14px] font-medium text-white transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-lg">
+                        <Link href="/dashboard" className="group relative overflow-hidden rounded-full text-[var(--color-text-primary)] bg-[var(--color-bg-surface)]  px-8 py-4 text-[14px] font-medium transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-lg">
                             <span className="relative z-10 flex items-center gap-2">
                                 Launch Dashboard
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
@@ -181,7 +183,7 @@ export default function Page() {
                     <div className="md:col-span-5 md:col-start-8 relative">
                         {/* Abstract visual element */}
                         <motion.div
-                            className="w-full aspect-[4/5] rounded-[32px] bg-[var(--color-bg-base)] border border-[var(--color-border-soft)] p-8 flex flex-col justify-between relative overflow-hidden shadow-[var(--shadow-sm)]"
+                            className="w-full aspect-[4/5] rounded-[32px] bg-[var(--color-bg-base)] border border-[var(--color-bg-base)] p-8 flex flex-col justify-between relative overflow-hidden shadow-[var(--shadow-sm)]"
                             initial={{ opacity: 0, scale: 0.95, rotate: -2 }}
                             whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
@@ -198,15 +200,15 @@ export default function Page() {
                             </div>
 
                             <div className="relative z-10 space-y-3">
-                                <div className="p-5 rounded-2xl bg-white/80 backdrop-blur-md border border-[var(--color-border-soft)] shadow-sm transition-transform hover:-translate-y-1">
-                                    <div className="text-[12px] text-[var(--color-pt-fill)] font-medium mb-1 flex items-center gap-2">
+                                <div className="p-5 rounded-2xl bg-[var(--color-bg-base)] backdrop-blur-md border border-[var(--color-border-soft)] shadow-sm transition-transform hover:-translate-y-1">
+                                    <div className="text-[12px] text-[var(--color-text-primary)] font-medium mb-1 flex items-center gap-2">
                                         <span className="w-2 h-2 rounded-full bg-[var(--color-pt-fill)]" />
                                         Principal Token (PT)
                                     </div>
                                     <div className="text-[22px] font-semibold tracking-tight text-[var(--color-text-primary)]">Fixed 7.2% APY</div>
                                 </div>
-                                <div className="p-5 rounded-2xl bg-white/80 backdrop-blur-md border border-[var(--color-border-soft)] shadow-sm transition-transform hover:-translate-y-1">
-                                    <div className="text-[12px] text-[var(--color-yt-fill)] font-medium mb-1 flex items-center gap-2">
+                                <div className="p-5 rounded-2xl bg-[var(--color-bg-base)] backdrop-blur-md border border-[var(--color-border-soft)] shadow-sm transition-transform hover:-translate-y-1">
+                                    <div className="text-[12px] text-[var(--color-text-primary)] font-medium mb-1 flex items-center gap-2">
                                         <span className="w-2 h-2 rounded-full bg-[var(--color-yt-fill)]" />
                                         Yield Token (YT)
                                     </div>
@@ -218,9 +220,14 @@ export default function Page() {
                 </div>
             </section>
 
+            {/* ── DASHBOARD SNIPPET ────────────────────────────────── */}
+            <div style={{ position: 'relative', overflow: 'visible' }}>
+                <DashboardSnippet />
+            </div>
+
             {/* VIDEO SHOWCASE */}
             <section className="py-32 md:py-40 bg-[var(--color-bg-base)]">
-                <div className="max-w-[1000px] mx-auto px-6 flex flex-col items-center">
+                <div className="max-w-[1400px] mx-auto px-6 flex flex-col items-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -236,7 +243,7 @@ export default function Page() {
                         whileInView={{ opacity: 1, y: 0, scale: 1 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                        className="w-full aspect-video rounded-[32px] md:rounded-[48px] bg-[var(--color-bg-surface)] border-[4px] border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] relative overflow-hidden group cursor-pointer"
+                        className="w-full aspect-video rounded-[32px] md:rounded-[12px] bg-[var(--color-bg-surface)] border-[2px] border-[var(--color-bg-base)] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] relative overflow-hidden group cursor-pointer"
                     >
                         {/* Video Placeholder Content */}
                         <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-bg-muted)] to-[var(--color-bg-subtle)] opacity-40 transition-opacity group-hover:opacity-60" />
@@ -251,17 +258,17 @@ export default function Page() {
                         </div>
 
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <div className="w-24 h-24 rounded-full bg-white/90 backdrop-blur-md shadow-[var(--shadow-xl)] flex items-center justify-center mb-6 transition-all duration-400 group-hover:scale-110 group-hover:shadow-[var(--shadow-2xl)] group-hover:bg-white text-[var(--color-text-primary)] border border-[var(--color-border-soft)]">
+                            <div className="w-24 h-24 rounded-full bg-white/90 backdrop-blur-md shadow-[var(--shadow-xl)] flex items-center justify-center mb-6 transition-all duration-400 group-hover:scale-110 group-hover:shadow-[var(--shadow-2xl)] group-hover:bg-white text-[var(--color-text-secondary)] border border-[var(--color-border-soft)]">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none" className="ml-2"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                             </div>
-                            <p className="font-medium text-[15px] text-[var(--color-text-secondary)] tracking-wide bg-white/50 px-4 py-1.5 rounded-full backdrop-blur-sm border border-[var(--color-border-soft)]">Watch Walkthrough</p>
+                            <p className="font-medium text-[15px] text-[var(--color-text-primary)] tracking-wide bg-white/50 px-4 py-1.5 rounded-full backdrop-blur-sm border border-[var(--color-bg-muted)]">Watch Walkthrough</p>
                         </div>
                     </motion.div>
                 </div>
             </section>
 
             {/* FLOW / STORY SECTION */}
-            <section ref={storyRef} className="py-32 md:py-40 bg-white relative rounded-[48px] mx-4 md:mx-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)] mb-20 overflow-hidden">
+            <section ref={storyRef} className="py-32 md:py-40 bg-[var(--color-bg-base)] relative rounded-[48px] mx-4 md:mx-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)] mb-20 overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[var(--color-accent-bg)] rounded-full blur-[120px] opacity-20 pointer-events-none" />
 
                 <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
@@ -323,10 +330,10 @@ export default function Page() {
                         transition={{ delay: 0.2 }}
                         className="flex flex-col sm:flex-row items-center justify-center gap-4"
                     >
-                        <Link href="/dashboard" className="w-full sm:w-auto rounded-full bg-[var(--color-text-primary)] px-8 py-4 text-[14px] font-medium text-white hover:scale-105 active:scale-95 transition-all shadow-lg">
+                        <Link href="/dashboard" className="w-full sm:w-auto rounded-full bg-[var(--color-text-primary)] hover:bg-[var(--color-bg-base)] px-8 py-4 text-[14px] font-medium text-zinc-400 hover:scale-105 active:scale-95 transition-all shadow-lg">
                             Launch Dashboard
                         </Link>
-                        <Link href="/docs" className="w-full sm:w-auto rounded-full bg-white border border-[var(--color-border-soft)] px-8 py-4 text-[14px] font-medium text-[var(--color-text-primary)] hover:bg-[var(--color-bg-subtle)] active:scale-95 transition-all shadow-sm">
+                        <Link href="/docs" className="w-full sm:w-auto rounded-full bg-white border border-[var(--color-border-soft)] px-8 py-4 text-[14px] font-medium text-[var(--color-text-secondary)] bg-[var(--color-bg-subtle)] active:scale-95 transition-all shadow-sm">
                             Read the Docs
                         </Link>
                     </motion.div>
@@ -345,8 +352,10 @@ export default function Page() {
                     <div className="flex items-center gap-8 text-[13px] font-medium text-[var(--color-text-tertiary)]">
                         <a href="#" className="hover:text-[var(--color-text-primary)] transition-colors">Twitter</a>
                         <a href="#" className="hover:text-[var(--color-text-primary)] transition-colors">Discord</a>
-                        <a href="#" className="hover:text-[var(--color-text-primary)] transition-colors">GitHub</a>
+                        <a href="https://github.com/VedantShuklaaa/FENT" className="hover:text-[var(--color-text-primary)] transition-colors">GitHub</a>
                     </div>
+
+                    <ThemeToggle />
                 </div>
             </footer>
         </div>

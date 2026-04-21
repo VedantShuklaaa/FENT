@@ -2,7 +2,7 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { WalletConnectButton } from "../wallet/wallet-connect-button";
 import { NetworkBridge } from "../wallet/network-bridge";
 

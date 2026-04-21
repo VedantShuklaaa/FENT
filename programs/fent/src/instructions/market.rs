@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{associated_token::AssociatedToken, token::{Mint, Token, TokenAccount}};
-use crate::{errors::YieldrError, events::MarketCreated, state::{LstInfo, Market, ProtocolConfig}};
+use crate::{errors::FentError, events::MarketCreated, state::{LstInfo, Market, ProtocolConfig}};
 
 #[derive(Accounts)]
 #[instruction(maturity_ts: i64)]
@@ -18,7 +18,7 @@ pub struct InitializeMarket<'info> {
         seeds = [b"vault", market.key().as_ref()], bump)]
     pub vault: Account<'info, TokenAccount>,
     #[account(seeds = [b"lst_info", lst_mint.key().as_ref()], bump = lst_info.bump,
-        constraint = lst_info.is_active @ YieldrError::LstNotRegistered)]
+        constraint = lst_info.is_active @ FentError::LstNotRegistered)]
     pub lst_info: Account<'info, LstInfo>,
     pub lst_mint: Account<'info, Mint>,
     #[account(mut, seeds = [b"protocol_config"], bump = protocol_config.bump)]
@@ -33,7 +33,7 @@ pub struct InitializeMarket<'info> {
 
 pub fn initialize_market(ctx: Context<InitializeMarket>, maturity_ts: i64) -> Result<()> {
     let now = Clock::get()?.unix_timestamp;
-    require!(maturity_ts > now, YieldrError::MaturityInPast);
+    require!(maturity_ts > now, FentError::MaturityInPast);
     let m = &mut ctx.accounts.market;
     m.lst_mint              = ctx.accounts.lst_mint.key();
     m.maturity_ts           = maturity_ts;
@@ -49,7 +49,7 @@ pub fn initialize_market(ctx: Context<InitializeMarket>, maturity_ts: i64) -> Re
     m.is_settled            = false;
     m.bump                  = ctx.bumps.market;
     ctx.accounts.protocol_config.market_count =
-        ctx.accounts.protocol_config.market_count.checked_add(1).ok_or(YieldrError::MathOverflow)?;
+        ctx.accounts.protocol_config.market_count.checked_add(1).ok_or(FentError::MathOverflow)?;
     emit!(MarketCreated { market: m.key(), lst_mint: m.lst_mint, pt_mint: m.pt_mint, yt_mint: m.yt_mint, maturity_ts, timestamp: now });
     Ok(())
 }

@@ -7,7 +7,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-fent = "9s3X48cnvPHMLGuKGzGRQdQP6vhQsh2E2PNjd9azryBC"
+fent = "6Kkk6nvLC4RombhmjQvRD77ZE1UKLoXMPBLup7gZN7ZR"
 
 [provider]
 cluster = "localnet"
