@@ -1,5 +1,4 @@
 'use client';
-import ThemeToggle from '@/components/layout/themeToggle/themeToggle';
 import { WalletConnectButton } from '../wallet/wallet-connect-button';
 
 interface DashboardHeaderProps {
@@ -23,17 +22,12 @@ export default function DashboardHeader({
             </div>
 
             <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-[6px] rounded-sm bg-(--color-accent-bg) px-2 py-[3px] font-(--font-mono) text-sm uppercase tracking-[0.06em] text-(--color-accent-text) border-[0.5px] border-(--color-accent-border)">
+                <span className="inline-flex items-center gap-[6px] rounded-sm bg-(--color-accent-bg) px-[14px] py-[6px] font-(--font-mono) text-sm uppercase tracking-[0.06em] text-(--color-accent-text) border-[0.5px] border-(--color-accent-border)">
                     <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-(--color-accent)" />
                     {network === 'mainnet' ? 'Mainnet' : 'Devnet'}
                 </span>
 
-                {/* ── Dark mode toggle ── */}
-                <ThemeToggle />
-
-
                 <WalletConnectButton />
-
 
                 <button
                     className="cursor-pointer rounded-md border-none bg-(--color-accent) px-[14px] py-[6px] font-(--font-sans) text-[12px] tracking-[0.01em] text-[#E8F5F0]"

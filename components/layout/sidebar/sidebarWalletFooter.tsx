@@ -2,6 +2,8 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useMemo } from "react";
 import { truncateAddress } from "@/lib/utils";
+import ThemeToggle from "../themeToggle/themeToggle";
+
 
 interface SidebarWalletFooterProps {
   collapsed: boolean;
@@ -25,15 +27,16 @@ export default function SidebarWalletFooter({
 
       {/* Wallet details — hidden when collapsed */}
       {!collapsed && (
-        <div className='min-w-0 flex-1 overflow-hidden'>
-          <p className='mb-[2px] truncate font-mono text-[11px] text-(--color-text-primary)'>{walletAddress}</p>
-          <p className='flex items-center gap-[6px] font-mono text-[10px] text-[var(--color-text-tertiary)]'>
-            {balanceSol.toFixed(2)} SOL
-            {/*<span className="inline-flex items-center gap-[6px] rounded-sm bg-(--color-accent-bg) px-2 py-[3px] font-(--font-mono) text-[10px] uppercase tracking-[0.06em] text-(--color-accent-text) border-[0.5px] border-(--color-accent-border)">
-              <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-(--color-accent)" />
-              {network === 'mainnet' ? 'Mainnet' : 'Devnet'}
-            </span>*/}
-          </p>
+        <div className='min-w-0 w-full flex items-center justify-between overflow-hidden'>
+          <div className="flex-1">
+            <p className='mb-[2px] truncate font-mono text-[11px] text-(--color-text-primary)'>{walletAddress}</p>
+            <p className='flex items-center gap-[6px] font-mono text-[10px] text-[var(--color-text-tertiary)]'>
+              {balanceSol.toFixed(2)} SOL
+            </p>
+          </div>
+
+          {/* ── Dark mode toggle ── */}
+          <ThemeToggle />
         </div>
       )}
     </div>

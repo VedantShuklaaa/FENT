@@ -21,7 +21,6 @@ export default function NavItem({ item, collapsed }: NavItemProps) {
       title={collapsed ? item.label : undefined}
       aria-current={isActive ? 'page' : undefined}
     >
-      {/* Icon */}
       <span className='flex h-[16px] w-[16px] shrink-0 items-center relative'>
         <NavIcon
           d={item.icon}
@@ -33,7 +32,6 @@ export default function NavItem({ item, collapsed }: NavItemProps) {
         )}
       </span>
 
-      {/* Label + badge — hidden when collapsed */}
       {!collapsed && (
         <>
           <span
@@ -46,7 +44,6 @@ export default function NavItem({ item, collapsed }: NavItemProps) {
         </>
       )}
 
-      {/* Active indicator bar */}
       {isActive && (
         <span
           className={`absolute left-0 top-1/2 -translate-y-1/2 h-[16px] w-[2px] rounded-r-[2px] bg-(--color-accent) ${collapsed ? "left-[-1px] h-[12px]" : ""}`}
