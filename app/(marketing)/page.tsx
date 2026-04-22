@@ -1,15 +1,15 @@
 'use client';
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import dynamic from 'next/dynamic';
-
 import MarketingNav from '@/components/marketing/marketingNav';
 import { useSmoothScroll } from '@/lib/hooks/useSmoothScroll';
 import DashboardSnippet from '@/components/marketing/dashboardSnippet';
 import ThemeToggle from '@/components/layout/themeToggle/themeToggle';
+import FlowSection from '@/components/marketing/flowSection';
 
 const FooterOrb = dynamic(() => import('@/components/layout/footer/footerOrb'), { ssr: false });
 
@@ -31,6 +31,8 @@ export default function Page() {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const storyRef = useRef<HTMLDivElement>(null);
+    const section1 = useRef<HTMLDivElement>(null);
+    const section2 = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
@@ -68,6 +70,25 @@ export default function Page() {
             );
         }
 
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top top",
+                end: "+=70%",
+                scrub: 1,
+            }
+        })
+
+        tl.to(section1.current, {
+            yPercent: -30,          
+            ease: "none",
+        }, 0);
+
+        tl.fromTo(section2.current,
+            { scale: 0.6, transformOrigin: "center center" },
+            { scale: 1, ease: "none" },
+            0);
+
         return () => {
             ScrollTrigger.getAll().forEach(t => t.kill());
         }
@@ -78,7 +99,7 @@ export default function Page() {
             <MarketingNav activePage="home" />
 
             {/* HERO SECTION */}
-            <section className="relative w-full h-screen min-h-[800px] flex items-center justify-center pt-20">
+            <section className="sticky w-full h-screen min-h-[800px] flex items-center justify-center pt-20" ref={section1}>
                 {/* 3D Background */}
                 <div className="absolute inset-0 z-0 overflow-hidden flex items-center justify-center pointer-events-none">
                     <div className="w-[140%] h-[140%] md:w-[120%] md:h-[120%] max-w-[1400px] max-h-[1400px] absolute opacity-70 mix-blend-multiply">
@@ -147,7 +168,7 @@ export default function Page() {
             </section>
 
             {/* POSITIONING SECTION */}
-            <section className="py-32 md:py-40 bg-[var(--color-bg-surface)] relative rounded-t-[48px] shadow-[0_-8px_30px_rgba(0,0,0,0.02)] z-20">
+            <section className="py-32 md:py-40 bg-[var(--color-bg-surface)] relative rounded-t-[48px] shadow-[0_-8px_30px_rgba(0,0,0,0.02)] z-20" ref={section2}>
                 <div className="max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-16 items-center">
                     <div className="md:col-span-5 md:col-start-2">
                         <motion.div
@@ -268,39 +289,7 @@ export default function Page() {
             </section>
 
             {/* FLOW / STORY SECTION */}
-            <section ref={storyRef} className="py-32 md:py-40 bg-[var(--color-bg-base)] relative rounded-[48px] mx-4 md:mx-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)] mb-20 overflow-hidden">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[var(--color-accent-bg)] rounded-full blur-[120px] opacity-20 pointer-events-none" />
-
-                <div className="max-w-[1200px] mx-auto px-6 md:px-12 relative z-10">
-                    <div className="mb-24 md:flex justify-between items-end">
-                        <h2 className="text-[36px] md:text-[48px] font-bold tracking-[-0.02em] max-w-[500px] leading-[1.1]">
-                            A fluid experience from deposit to maturity.
-                        </h2>
-                        <p className="hidden md:block max-w-[300px] text-[15px] text-[var(--color-text-secondary)] leading-[1.6] mb-2">
-                            Three simple steps to unlock the full potential of your staked assets.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-16">
-                        {[
-                            { num: '01', title: 'Deposit LST', body: 'Lock jitoSOL, mSOL, or bSOL into the FENt vault for a chosen maturity date.', color: 'var(--color-accent)' },
-                            { num: '02', title: 'Mint PT & YT', body: 'Receive your Principal and Yield Tokens instantly. Perfect 1:1 ratio representing your underlying position.', color: 'var(--color-pt-fill)' },
-                            { num: '03', title: 'Trade or Hold', body: 'Access our on-chain order books to discover implied rates, or hold to maturity for guaranteed redemption.', color: 'var(--color-yt-fill)' },
-                        ].map((step, i) => (
-                            <div key={step.num} className="story-card relative flex flex-col pt-10">
-                                <div className="absolute top-0 left-0 w-full h-[1.5px] bg-[var(--color-border-soft)] overflow-hidden">
-                                    <div className="story-line h-full w-full origin-left" style={{ backgroundColor: step.color }} />
-                                </div>
-                                <span className="font-mono text-[14px] font-medium mb-6 px-3 py-1 bg-[var(--color-bg-base)] w-max rounded-[6px] border border-[var(--color-border-soft)]" style={{ color: step.color }}>Step {step.num}</span>
-                                <h3 className="text-[22px] font-semibold mb-3 tracking-tight">{step.title}</h3>
-                                <p className="text-[16px] text-[var(--color-text-secondary)] leading-[1.6]">
-                                    {step.body}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <FlowSection />
 
             {/* FOOTER CTA */}
             <section className="py-32 bg-[var(--color-bg-base)] relative overflow-hidden">
@@ -330,10 +319,10 @@ export default function Page() {
                         transition={{ delay: 0.2 }}
                         className="flex flex-col sm:flex-row items-center justify-center gap-4"
                     >
-                        <Link href="/dashboard" className="w-full sm:w-auto rounded-full bg-[var(--color-text-primary)] hover:bg-[var(--color-bg-base)] px-8 py-4 text-[14px] font-medium text-zinc-400 hover:scale-105 active:scale-95 transition-all shadow-lg">
+                        <Link href="/dashboard" className="w-full sm:w-auto rounded-full bg-[var(--color-bg-base)] hover:bg-[var(--color-bg-base)] px-8 py-4 text-[14px] font-medium text-zinc-400 hover:scale-105 active:scale-95 transition-all shadow-lg">
                             Launch Dashboard
                         </Link>
-                        <Link href="/docs" className="w-full sm:w-auto rounded-full bg-white border border-[var(--color-border-soft)] px-8 py-4 text-[14px] font-medium text-[var(--color-text-secondary)] bg-[var(--color-bg-subtle)] active:scale-95 transition-all shadow-sm">
+                        <Link href="/docs" className="w-full sm:w-auto rounded-full bg-[var(--color-text-primary)] border border-[var(--color-border-soft)] px-8 py-4 text-[14px] font-medium text-[var(--color-text-secondary)] bg-[var(--color-bg-subtle)] active:scale-95 transition-all shadow-sm">
                             Read the Docs
                         </Link>
                     </motion.div>
